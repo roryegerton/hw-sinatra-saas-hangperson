@@ -24,7 +24,7 @@ class HangpersonGame
   end
 
   def guess(letter)
-    #raise ArgumentError if letter ~ /[A-Za-z]/ 
+    raise ArgumentError if letter !~ /[A-Za-z]/ 
 
     letter.downcase!
 
@@ -35,5 +35,29 @@ class HangpersonGame
     else
       @wrong_guesses << letter
     end
+  end
+
+  def word_with_guesses
+    return_word_with_guesses = ""
+
+    @word.chars.each do |letter|
+      if @guesses.include?(letter)
+        return_word_with_guesses += letter
+      else
+        return_word_with_guesses += "-"
+      end
+    end
+  
+    return_word_with_guesses
+  end
+
+  def check_win_or_lose
+    if @wrong_guesses.length == 7
+      return :lose
+    elsif word_with_guesses.chars.include?("-")
+      return :play
+    else
+      return :win
+    end  
   end
 end
